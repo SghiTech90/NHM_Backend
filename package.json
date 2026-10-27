@@ -1,0 +1,11 @@
+{
+  "name": "nhm-deploy",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "postinstall": "npm ci --prefix Backend --omit=dev",
+    "start": "npm start --prefix Backend"
+  }
+}

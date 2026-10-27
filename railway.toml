@@ -1,10 +1,7 @@
-# Repo root is one level above the Node app. In Railway:
-# Service → Settings → Root Directory → Backend
+# Recommended: Service → Settings → Root Directory → Backend
+# (uses Backend/Dockerfile + Backend/package-lock.json)
 #
-# Or link this repo and set Root Directory to "Backend" so Nixpacks uses Backend/package.json.
-
-[build]
-builder = "NIXPACKS"
+# If Root Directory stays "/", Railpack uses root package.json postinstall.
 
 [deploy]
 startCommand = "npm start"
