@@ -1,0 +1,12 @@
+# Repo root is one level above the Node app. In Railway:
+# Service → Settings → Root Directory → Backend
+#
+# Or link this repo and set Root Directory to "Backend" so Nixpacks uses Backend/package.json.
+
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+startCommand = "npm start"
+healthcheckPath = "/api/health"
+healthcheckTimeout = 120

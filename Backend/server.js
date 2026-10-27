@@ -2,6 +2,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { corsOriginCallback, getAllowedOrigins } from './config/cors.js';
 import { getPool } from './config/db.js';
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import circleRoutes from './routes/circleRoutes.js';
@@ -20,9 +21,16 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
-}));
+app.set('trust proxy', 1);
+
+app.use(
+    cors({
+        origin: corsOriginCallback,
+        credentials: true,
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+    })
+);
 
 app.use(express.json());
 app.use("/api/dashboard", dashboardRoutes);
@@ -72,8 +80,10 @@ app.get('/api/health', async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = Number(process.env.PORT) || 5000;
+const HOST = process.env.HOST || '0.0.0.0';
 
-app.listen(PORT, () => {
-    console.log(`NHM Backend running at http://localhost:${PORT}`);
+app.listen(PORT, HOST, () => {
+    console.log(`NHM Backend listening on ${HOST}:${PORT}`);
+    console.log(`CORS allowed origins: ${getAllowedOrigins().join(', ')}`);
 });
